@@ -1,6 +1,25 @@
+# NewGround Factor server
 
+## Run
+`sbt run`
 
+## Test 
+Edit `f1.csv` and `f2.csv`
 
+- Get 
+```
+curl -XGET http://localhost:8080/factor?v1=5
+```
+- Post
+```
+curl -XPOST -H 'Content-type: text/xml' -d '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><factor-calculation-request><v2>10</v2><v3>15</v3><v4>15</v4></factor-calculation-request>'  http://localhost:8080/factor
+```
+
+## Contribute
+`sbt eclipse` 
+
+## Improvements 
+In case we are able to replace csv to binary format we can use a memory mapped file to have random acces to the data for much better performance.
 ``` Scala
 package com.newground
 
@@ -43,7 +62,7 @@ class Matrix(h: Int, w: Int, f: String) {
   def set(r: Int, c: Int, d: Double): Unit = {
     val(map_num, map_off) = pos(r, c)    
     mappings(map_num).putDouble(map_off, d)
-      }
+  }
   
   def close(): Unit = {
     for (mapping <- mappings) {
@@ -55,14 +74,3 @@ class Matrix(h: Int, w: Int, f: String) {
   
 } 
 ```
-
-```
-curl -XGET http://localhost:8080/factor?v1=5
-```
-
-```
-curl -XPOST -H 'Content-type: text/xml' -d '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><factor-calculation-request><v2>10</v2><v3>15</v3><v4>15</v4></factor-calculation-request>'  http://localhost:8080/factor
-```
-
-
-
