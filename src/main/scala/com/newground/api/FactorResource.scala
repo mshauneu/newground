@@ -1,5 +1,6 @@
 package com.newground.api
 
+import scala.language.reflectiveCalls
 import java.io.File
 import java.util.concurrent.locks.{ ReentrantReadWriteLock, Lock }
 import javax.ws.rs.{ POST, Produces, GET, Path, QueryParam }
@@ -44,7 +45,7 @@ class FactorResource {
   private def locking[B](lock: Lock)(f: Unit => B): B = {
     lock.lock()
     try {
-      f()
+      f(())
     } finally {
       lock.unlock()
     }
